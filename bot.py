@@ -144,34 +144,33 @@ _db.commit()
 # ── invite helpers ──────────────────────────────────────────────
 
 def _add_invite(guild_id, user_id, amount=1):
-_cur.execute("""
+    _cur.execute("""
 INSERT INTO invites (guild_id,user_id,invites) VALUES (?,?,?)
 ON CONFLICT(guild_id,user_id) DO UPDATE SET invites=invites+?
 """, (guild_id, user_id, amount, amount))
-_db.commit()
+    _db.commit()
 
 def _get_invites(guild_id, user_id):
-_cur.execute(
+    _cur.execute(
 "SELECT invites,left_invites,fake_invites FROM invites WHERE guild_id=? AND user_id=?",
 (guild_id, user_id)
 )
-row = _cur.fetchone()
-return row if row else (0, 0, 0)
+    row = _cur.fetchone()
+    return row if row else (0, 0, 0)
 
 def _set_invites(guild_id, user_id, amount):
-_cur.execute("""
+    _cur.execute("""
 INSERT INTO invites (guild_id,user_id,invites) VALUES (?,?,?)
 ON CONFLICT(guild_id,user_id) DO UPDATE SET invites=?
 """, (guild_id, user_id, amount, amount))
-_db.commit()
+    _db.commit()
 
 def _get_top(guild_id, limit=10):
-_cur.execute(
+    _cur.execute(
 "SELECT user_id,invites,left_invites,fake_invites FROM invites WHERE guild_id=? ORDER BY invites DESC LIMIT ?",
 (guild_id, limit)
 )
-return _cur.fetchall()
-
+    return _cur.fetchall()
 # ── warn helpers ────────────────────────────────────────────────
 
 def _add_warn(guild_id, user_id, mod_id, reason):
