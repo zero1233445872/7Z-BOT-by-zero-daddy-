@@ -99,7 +99,7 @@ first_react_announced: set[int] = set()
 import pathlib
 _DB_PATH = "/data/bot.db" if pathlib.Path("/data").exists() else "bot.db"
 if not pathlib.Path("/data").exists():
-print("WARNING: /data volume not found — DB will reset on restart!")
+    print("WARNING: /data volume not found — DB will reset on restart!")
 
 _db = sqlite3.connect(_DB_PATH, check_same_thread=False)
 _cur = _db.cursor()
